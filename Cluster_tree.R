@@ -62,4 +62,5 @@ ggtree(tree1, layout="rectangular", ignore.negative.edge=TRUE)
 #has negative edge lengths??
 #something is wrong with this tree
 
-#try to colour by population or common garden?
+#try to colour by population or common garden
+#will ask colautti abou tthis
