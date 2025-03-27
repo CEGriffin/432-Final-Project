@@ -1,5 +1,6 @@
 #set working directory
 getwd()
+setwd("C:/Users/clari/Desktop/BIOL 432/Week10/432-Final-Project")
 
 #load libraries
 library(dplyr)
@@ -26,8 +27,12 @@ data$petri_dish<-sub("(\\w?).+","\\1", data$petri_dish)
 data$family<-sub("\\w?\\|\\w+-([A-z0-9-]+)\\|.*", "\\1", data$family)
 data$common_garden<-sub("\\w?\\|.+\\|(\\w)\\|.+", "\\1", data$common_garden)
 
-#remove maples
+#remove maples and data without info on common garden
 data<-subset(data, population!="maple")
+unique(data$common_garden)
+data<-subset(data, population!="e|JBCHY1-1-50|?")
+data<-subset(data, population!="b|WSSWM3-1-0|?|?")
+data<-subset(data, population!="i163_2")
 
 #Change data classes
 str(data)
