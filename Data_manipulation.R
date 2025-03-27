@@ -78,6 +78,10 @@ ggplot(long_data, aes(x=values)) +
 #DO YOU THINK THIS NEEDS ANY MORE DATA TRANSFORMATIONS, LIKE LOG TRANSFORMS?
 #I DIDNT KNOW WHAT TO DO WITH THE COUNT DATA
 
+## not sure if it makes a big difference but you can also calculate z-scores 
+## using the following code: 
+## df$var<-scale(df$var, center = TRUE, scale = TRUE)
+
 data<-data%>%
   mutate(z_RGR1=(RGR1-mean(RGR1))/sd(RGR1),
          z_RGR2=(RGR2-mean(RGR2))/sd(RGR2),
