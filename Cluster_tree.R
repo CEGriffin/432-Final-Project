@@ -14,35 +14,55 @@ library(dplyr)
 library(ggtree)
 
 #load data
-data<-read.csv("./DataSynth_expand_tag.csv")
+data<-read.csv("./normalized_data.csv")
 head(data)
 
 #See if plants cluster by common garden or genetic population or neither
 #group by similarities in growth rate
 
-#which variables to use for growth rate/survival? - only in the green house
-#Relative growth rate 1-4
-#chlorophyl A and B concentration
-#gluc_cong, flav_conc
-#leaf len and width and total area
-#all bolt stuff
-#all gm leaf dimensions
-#mortality
-
-
 #make a dataframe with only the important columns
 data2<-data%>%
-  select("RGR1", "RGR2", "RGR3", "RGR4", "ChlorA", "ChlorB",
-         "gluc_Conc", "flav_Conc", "GM_Leaf_Wid", "GM_Leaf_Len",
-         "GM_TotalLeaf_Area", "GM_NumberOfLeaves", "mortality")
-View(data2)
+  select(starts_with("z_"))
+head(data2)
 
 #male a distance matrix - this is a linear matrix
 distance<-dist(data2)
 head(distance)
-dim(distance)
 
-#turn into a matrix- then do some more strange transformations???
+#tree building
+tree1<-nj(distance)
+str(tree1)
+ggtree(tree1, layout="rectangular") +
+  geom_tiplab()
+
+#colour by common garden or population
+ggtree(tree1, layout="rectangular") %<+% data +
+  geom_tiplab(aes(colour="common_garden")) +
+  theme(legend.position="right")
+
+head(data)
+
+
+
+#normalixze all the data
+#regression trees- you can combo diff kinds of data
+#for clustering use only the the same type of data
+#check normality
+#correlation structure- eg chlor a and b
+#do a pca - take only pci, which represents chemistry , relative growth rates
+#log transform counts- will approx normalize it
+
+
+#try to colour by population or common garden
+#will ask colautti abou tthis
+
+
+#use a diff object for labelling, wird pipe %>+%
+
+#pca normalzed, 
+#not decision tree, can use raw data on that
+
+#turn into a matrix
 dist_matr<-as.matrix(distance)
 pdat<-melt(dist_matr)
 head(pdat)
@@ -54,13 +74,4 @@ str(pdat)
 #visualize distance matrix
 ggplot(data=pdat, aes(x=query, y=subject, fill=distance)) +
   geom_tile()
-#i think this is too big to visualize- it keeps crashing- also uninterpretable
-
-#tree building
-tree1<-nj(distance)
-ggtree(tree1, layout="rectangular", ignore.negative.edge=TRUE)
-#has negative edge lengths??
-#something is wrong with this tree
-
-#try to colour by population or common garden
-#will ask colautti abou tthis
+#i think this is too big to visualize
