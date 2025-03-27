@@ -70,6 +70,10 @@ ggplot(long_data, aes(x=values)) +
   theme_classic() +
   facet_wrap(~metric, scales="free")
 
+#do we want to check normality with qq plots as well? 
+#ggplot(aes()) +
+  #geom_qq() + stat_qq_line() + ggtitle ()
+
 #transform everything to z scores
 #DO YOU THINK THIS NEEDS ANY MORE DATA TRANSFORMATIONS, LIKE LOG TRANSFORMS?
 #I DIDNT KNOW WHAT TO DO WITH THE COUNT DATA
