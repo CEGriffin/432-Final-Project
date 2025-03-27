@@ -64,7 +64,6 @@ head(data)
 
 
 #YOU CAN PROBABLY IGNORE THIS
-
 #turn into a matrix
 dist_matr<-as.matrix(distance)
 pdat<-melt(dist_matr)
