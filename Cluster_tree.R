@@ -62,6 +62,7 @@ head(data)
 #pca normalzed, 
 #not decision tree, can use raw data on that
 
+
 #turn into a matrix
 dist_matr<-as.matrix(distance)
 pdat<-melt(dist_matr)
