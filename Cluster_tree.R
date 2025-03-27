@@ -14,20 +14,26 @@ library(dplyr)
 library(ggtree)
 
 #load data
-data<-read.csv("./normalized_data.csv")
+data<-read.csv("./normalized_data.csv", row.names=NULL)
 head(data)
 
-#See if plants cluster by common garden or genetic population or neither
-#group by similarities in growth rate
+#give data row names
+uniq_name<-make.names(data$Tag, unique=T)
+row.names(data) <- uniq_name
+View(data)
+
 
 #make a dataframe with only the important columns
 data2<-data%>%
   select(starts_with("z_"))
 head(data2)
+str(data2)
+View(data2)
 
 #make a distance matrix - this is a linear matrix
 distance<-dist(data2)
 head(distance)
+str(distance)
 
 #tree building
 tree1<-nj(distance)
@@ -37,10 +43,10 @@ ggtree(tree1, layout="rectangular") +
 
 #colour by common garden or population
 ggtree(tree1, layout="rectangular") %<+% data +
-  geom_tiplab(aes(colour="common_garden")) +
+  geom_tiplab(aes(colour=population)) +
   theme(legend.position="right")
 
-head(data)
+View(data)
 
 
 
