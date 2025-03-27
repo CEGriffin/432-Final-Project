@@ -25,7 +25,7 @@ data2<-data%>%
   select(starts_with("z_"))
 head(data2)
 
-#male a distance matrix - this is a linear matrix
+#make a distance matrix - this is a linear matrix
 distance<-dist(data2)
 head(distance)
 
@@ -61,6 +61,7 @@ head(data)
 
 #pca normalzed, 
 #not decision tree, can use raw data on that
+
 
 #YOU CAN PROBABLY IGNORE THIS
 
