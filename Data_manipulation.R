@@ -123,6 +123,7 @@ bolt_data<-bolt_data%>%
 
 #Select out needed data
 data<-select(data, "Tag", "petri_dish", "population", "family", "common_garden", "ID", "gh_bench", "gh_col", "gh_row", "Row_Field", "Col_Field", starts_with("z_"), "mortality")
+#affed common garden
 
 #bolt data check for normality - needs log transformation
 long_bolt_data<-pivot_longer(bolt_data, 18:21, names_to="metric", values_to="values")
