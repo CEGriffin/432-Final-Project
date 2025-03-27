@@ -148,6 +148,3 @@ ggplot(long_bolt_data, aes(x=values)) +
 #write files into a csv
 write.csv(data, file="./normalized_data.csv", row.names=F)
 write.csv(bolt_data, file="./normalized_bolt_data.csv", row.names=F)
-
-
-write.csv(data, file="./DataSynth_expand_tag.csv", row.names=F)
