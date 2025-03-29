@@ -10,7 +10,7 @@ plantData<-subset(plantData, mortality == 1)
 
 pcaData<-plantData %>%
   select(-c("Tag", "petri_dish", "population", "family", "ID",
-            "gh_bench", "gh_col", "gh_row", "Row_Field", "Col_Field", "mortality"))
+            "gh_bench", "gh_col", "gh_row", "Row_Field", "Col_Field", "mortality", "common_garden"))
 
 plantPCA<-princomp(pcaData,cor=F)
 
