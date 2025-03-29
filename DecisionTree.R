@@ -47,7 +47,6 @@ test<-1-train
 plantTest<-plantDecide[test == 1,]
 
 library(tree)
-
 plantTree<- tree(common_garden ~ ., data=plantTrain)
 
 #plot the tree with text
