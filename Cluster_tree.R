@@ -20,31 +20,26 @@ head(data)
 #give data row names
 uniq_name<-make.names(data$Tag, unique=T)
 row.names(data) <- uniq_name
-View(data)
-
 
 #make a dataframe with only the important columns
 data2<-data%>%
   select(starts_with("z_"))
 head(data2)
-str(data2)
-View(data2)
 
 #make a distance matrix - this is a linear matrix
 distance<-dist(data2)
-head(distance)
-str(distance)
 
 #tree building
 tree1<-nj(distance)
 str(tree1)
-ggtree(tree1, layout="rectangular") +
-  geom_tiplab()
+ggtree(tree1, layout="rectangular")
+
 
 #colour by common garden or population
 ggtree(tree1, layout="rectangular") %<+% data +
   geom_tiplab(aes(colour=population)) +
   theme(legend.position="right")
+
 
 View(data)
 
