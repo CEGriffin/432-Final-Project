@@ -6,11 +6,15 @@ output: html_document
 ---
 
 ```{r}
+#reading the data set
+
 data <- read.csv("https://raw.githubusercontent.com/CEGriffin/432-Final-Project/main/raw_data.csv")
 ```
 
 
 ```{r}
+#Load the required libraries for data manipulation, modeling, and visualization.
+
 library(dplyr)
 library(tidyr)
 library(tree)
@@ -22,81 +26,102 @@ library(caret)
 ```
 
 ```{r}
+#Display the first few rows, last few rows, and structure of the dataset to understand its contents.
+
 head(data)
 tail(data)
 str(data)
 ```
 
 ```{r}
+#Identify and list the column names that have missing (NA) values.
+
 data %>% select_if(function(x) any(is.na(x))) %>% names()
 ```
 
 ```{r}
+#Convert the population column to a factor (categorical variable).
+
 data <- data %>%
   mutate(population = factor(population))
 ```
 
 ```{r}
+#Get the dimensions (number of rows and columns) of the dataset.
+
 dim(data)
 ```
 
 ```{r}
+#Create and print a frequency table showing the distribution of different populations.
+
 PopTable <- table(data$population)
 print(PopTable)
 ```
 
 splitting data
 ```{r}
+#Remove specific non-relevant columns from the dataset to create PopData.
+
 PopData <- data %>% 
   select(-c("Tag", "petri_dish", "family", "common_garden", "ID", "gh_bench", "gh_col", "gh_row", "Sample", "Row_Field", "Col_Field"))
 ```
 
 ```{r}
+#list of used columns
+
 ("ChlorA", "ChlorB", "gluc_Conc", "flav_Conc", "GM_Leaf_Len", "GM_Leaf_Wid", "GM_TotalLeaf_Area", "GM_NumberOfLeaves", "Larg_Leaf_Len_Bolt", "Larg_Leaf_Wid_Bolt", "GM_StemHeight_Bolt", "GM_Leaf_Number_Bolt", "RGR1", "RGR2", "RGR3", "RGR4")
 ```
 
 ```{r}
-# Step 1: Replace "Dead" with "0" only in character columns
+# Replace the string "Dead" with "0" in all character columns of PopData.
+
 PopData <- PopData %>%
   mutate(across(where(is.character), ~ gsub("Dead", "0", .)))
 
 ```
 
 ```{r}
+# Convert the character columns (which now contain numeric values) into numeric columns.
 
-# Step 2: Convert only relevant columns to numeric (i.e., those that are now characters with numeric data)
 PopData <- PopData %>%
   mutate(across(where(is.character), as.numeric))
 
 ```
 
 ```{r}
-# Step 3: Handle any remaining issues with factors or factors-like columns (like population)
-# For example, if 'population' is a factor and you don't want it to be converted, you can ensure it stays a factor:
+# Ensure that the population column remains a factor if it was unintentionally changed.
+
 PopData$population <- as.factor(PopData$population)
 ```
 
 
 ```{r}
-#assigning a training and testing set
+#Create a variable to split the dataset into a training set and a test set.
 
-Test_sub <- c(1:nrow(PopData)) %%3
-Train_sub <- 2-Test_sub
+Test_sub <- c(1:nrow(PopData)) %%2
+Train_sub <- 1-Test_sub
 ```
 
 ```{r}
-Test <- PopData[Test_sub == 0,]
-Train <- PopData[Train_sub != 2,]
+#Split PopData into training and testing sets based on the previously defined indices.
+
+Test <- PopData[Test_sub == 1,]
+Train <- PopData[Train_sub != 1,]
 ```
 
 
 ```{r}
+#Fit a decision tree model to predict population using the training data and visualize the tree.
+
 PopTree <- tree(population ~ ., data=Train)
 plot(PopTree)
 text(PopTree, cex = 0.5)
 ```
 
 ```{r}
+#Perform cross-validation and prune the decision tree to select the best tree size, then visualize it.
+
 PopPrune <-cv.tree(PopTree, best=6, FUN = prune.tree)
 plot(PopPrune)
 text(PopPrune, cex = 0.5, adj=0)
