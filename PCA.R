@@ -14,11 +14,11 @@ plantDataV<-subset(plantData, common_garden == "V")
 
 pcaData<-rbind(plantDataQ, plantDataN, plantDataV)
 
-pcaData<-pcaData %>%
+pcaData_2<-pcaData %>%
   select(-c("Tag", "petri_dish", "population", "family", "ID",
             "gh_bench", "gh_col", "gh_row", "Row_Field", "Col_Field", "common_garden"))
 
-plantPCA<-princomp(na.omit(pcaData),cor=F)
+plantPCA<-princomp(na.omit(pcaData_2),cor=F)
 
 #checking the PCA output and its structure
 str(plantPCA)
