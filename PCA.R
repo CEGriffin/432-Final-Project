@@ -92,7 +92,8 @@ boltPCA$loadings
 boltCombined<-cbind(boltData2, boltPCA$scores)
 
 boltCombined<-boltCombined %>% 
-  rename(PC1 = Comp.1, PC2 = Comp.2, PC3 = Comp.3, PC4= Comp.4, PC5 = Comp.5, PC6=Comp.6)
+  rename(PC1 = Comp.1, PC2 = Comp.2, PC3 = Comp.3, PC4= Comp.4, PC5 = Comp.5, 
+         PC6=Comp.6)
 
 str(boltCombined)
 
