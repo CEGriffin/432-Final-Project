@@ -9,7 +9,7 @@ Github Link: https://github.com/CEGriffin/432-Final-Project
 
 Group members: Clarisa Griffin (20270784), 
 
-**Data Manipulation**
+##Data Manipulation##
 
 __Non-Normalized Data__
 ```{r, warning=F, message=F}
@@ -44,9 +44,9 @@ data<-subset(data, population!="maple")
 
 #remove observations for which there is no common garden data
 unique(data$common_garden)
-data<-subset(data, population!="e|JBCHY1-1-50|?")
-data<-subset(data, population!="b|WSSWM3-1-0|?|?")
-data<-subset(data, population!="i163_2")
+data<-subset(data, common_garden!="e|JBCHY1-1-50|?")
+data<-subset(data, common_garden!="b|WSSWM3-1-0|?|?")
+data<-subset(data, common_garden!="i163_2")
 
 #Ensure columns are the right data class
 str(data)
@@ -206,3 +206,5 @@ write.csv(data, file="./normalized_data.csv", row.names=F)
 write.csv(bolt_data, file="./normalized_bolt_data.csv", row.names=F)
 ```
 
+
+##Decision Tree##
