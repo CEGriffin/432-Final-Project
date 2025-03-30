@@ -52,11 +52,11 @@ ggplot(aes(x=PC1,y=PC2,colour=population, shape=common_garden),data=plantCombine
 ggplot(aes(x=PC2,y=PC3,colour=population, shape=common_garden),data=plantCombined)+
   geom_point() + theme_bw()
 
-ggplot(aes(x=PC3,y=PC4,colour=population, shape=common_garden),data=plantCombined)+
-  geom_point()+ theme_bw()
+#ggplot(aes(x=PC3,y=PC4,colour=population, shape=common_garden),data=plantCombined)+
+  #geom_point()+ theme_bw()
 
-ggplot(aes(x=PC4,y=PC5,colour=population, shape=common_garden),data=plantCombined)+
-  geom_point()+ theme_bw()
+#ggplot(aes(x=PC4,y=PC5,colour=population, shape=common_garden),data=plantCombined)+
+  #geom_point()+ theme_bw()
 
 
 #checking if the bolt only data exhibits the same trend 
