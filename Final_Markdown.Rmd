@@ -85,9 +85,6 @@ data$mortality<-sub("Dead","0", data$mortality)
 #separate out bolt data
 bolt_data<-subset(data, Larg_Leaf_Len_Bolt!="Dead")
 
-#Select out needed columns from "data"
-data<-select(data, -ends_with("Bolt"))
-
 #Ensure columns are the right data class
 bolt_data$Larg_Leaf_Len_Bolt<-as.numeric(bolt_data$Larg_Leaf_Len_Bolt)
 bolt_data$Larg_Leaf_Wid_Bolt<-as.numeric(bolt_data$Larg_Leaf_Wid_Bolt)
@@ -207,4 +204,109 @@ write.csv(bolt_data, file="./normalized_bolt_data.csv", row.names=F)
 ```
 
 
-##Decision Tree##
+##PCA##
+
+```{r}
+
+#Load Libraries
+library(dplyr)
+library(ggplot2)
+
+#Load data
+pcaData<-read.csv("normalized_data.csv")
+
+#select out the un-needed columns, leave columns with only data
+pcaData_2<-pcaData %>%
+  select(-c("Tag", "petri_dish", "population", "family", "ID",
+            "gh_bench", "gh_col", "gh_row", "Row_Field", "Col_Field", "common_garden"))
+
+#run PCA
+plantPCA<-princomp(na.omit(pcaData_2),cor=F)
+
+#checking the PCA output and its structure
+str(plantPCA)
+head(plantPCA)
+names(plantPCA)
+
+#put PCA loadings into a data frame
+PCloadings<-data.frame(Component=c(1:13),Eigenvalue=plantPCA$sdev^2)
+
+#create a scree plot - elbow is around 5.0 principal components
+ggplot(aes(x=Component,y=Eigenvalue),data=PCloadings) +geom_point() + geom_line()
+
+#what are the loadings of each variable on the components 
+plantPCA$loadings
+
+#combining the PCA with the original plant data for graphing 
+plantCombined<-cbind(na.omit(pcaData), plantPCA$scores)
+
+plantCombined<-plantCombined %>% 
+  rename(PC1 = Comp.1, PC2 = Comp.2, PC3 = Comp.3, PC4= Comp.4, PC5 = Comp.5)
+
+#make sure columns are the right data classes
+str(plantCombined)
+
+plantCombined$population<-as.factor(plantCombined$population)
+
+#creating the bivariate plots for PC1 vs PC2 
+ggplot(aes(x=PC1,y=PC2,colour=population, shape=common_garden),data=plantCombined)+
+  geom_point() + theme_bw()
+
+ggplot(aes(x=PC2,y=PC3,colour=population, shape=common_garden),data=plantCombined)+
+  geom_point() + theme_bw()
+
+ggplot(aes(x=PC1,y=PC3,colour=population, shape=common_garden),data=plantCombined)+
+  geom_point() + theme_bw()
+
+
+
+#checking if the data exhibits the same trend when including growth data when plants are bolts
+
+#load data
+boltData<-read.csv("normalized_bolt_data.csv", header=T)
+
+#select out un-needed columns, keep only numerical variables
+pcaData2<-boltData %>%
+  select(-c("Tag", "petri_dish", "population", "family", "ID",
+            "gh_bench", "gh_col", "gh_row", "Row_Field", "Col_Field", 
+            "common_garden"))
+
+#make PCA
+boltPCA<-princomp(pcaData2,cor=F)
+
+#checking the PCA output and its structure
+str(boltPCA)
+head(boltPCA)
+names(boltPCA)
+
+#put PCA loadings into a data frame
+PCloadings2<-data.frame(Component=c(1:17),Eigenvalue=boltPCA$sdev^2)
+
+#make a scree plot - elbow is around 5.0 principal components
+ggplot(aes(x=Component,y=Eigenvalue),data=PCloadings2) +geom_point() + geom_line()
+
+#what are the loadings of each variable on the components 
+boltPCA$loadings
+
+#combining the PCA with the original plant data for graphing 
+boltCombined<-cbind(boltData, boltPCA$scores)
+
+boltCombined<-boltCombined %>% 
+  rename(PC1 = Comp.1, PC2 = Comp.2, PC3 = Comp.3, PC4= Comp.4, PC5 = Comp.5, 
+         PC6=Comp.6)
+
+str(boltCombined)
+
+boltCombined$population<-as.factor(boltCombined$population)
+
+#creating the bivariate plots for PC1 vs PC2, 2 vs 3, 1 vs 3
+ggplot(aes(x=PC1,y=PC2,colour=population, shape=common_garden),data=boltCombined)+
+  geom_point()+ theme_bw() 
+
+ggplot(aes(x=PC2,y=PC3,colour=population, shape=common_garden),data=boltCombined)+
+  geom_point()+ theme_bw()
+
+ggplot(aes(x=PC1,y=PC3,colour=population, shape=common_garden),data=boltCombined)+
+  geom_point()+ theme_bw()
+```
+
