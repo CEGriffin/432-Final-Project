@@ -34,19 +34,19 @@ raw_data.csv
 
 **Variables**
 
-- Tag: Unique barcode for each individual plant. The section before the "|" indicates the petri dish the plant germinated on, after the "|" indicates the genetic family of the plant, after the second "|", reflects whether the parent family was grown in a common garden in Vancouver (V), at Queen's University (Q), or came from a seed from the original population (N).After the last "|" is a unique identifier for the plant.
+- Tag: Unique barcode for each individual plant. The section before the "|" indicates the petri dish the plant germinated on, after the "|" indicates the genetic family of the plant, after the second "|", reflects whether the parent family was grown in a common garden in Vancouver (V), at Queen's University (Q), or came from a seed from the original population (N). After the last "|" is a unique identifier for the plant.
 
-The following variables are just the different components of “Tag” expanded into their own columns: 
+The following five variables are just the different components of “Tag” expanded into their own columns: 
 
-- petri_dish: The petri dish on which the plant seed germinated
+  - petri_dish: The petri dish on which the plant seed germinated
 
-- population: Genetic population of the plant
+  - population: Genetic population of the plant
 
-- family: Genetic family of the plant
+  - family: Genetic family of the plant
 
-- common_garden: where the parent plant was grown (V=Vancouver, Q= Queen’s, N=natural population)
+  - common_garden: where the parent plant was grown (V=Vancouver, Q= Queen’s, N=natural population)
 
-- ID: Unique identifier for the plant
+  - ID: Unique identifier for the plant
 
 - ChlorA: Chlorophyll A concentration (micrograms/ml)
 
@@ -133,15 +133,7 @@ Run the DecisionTree.R file:
 - Separate into testing and training datasets (50:50 split)
 
 - Makes a tree using the tree() function from the tree library; prune the nodes for 8 tips using the “best=” parameter
-
-  Confusion matrix 
-
-  - Set up confusion matrix type=class
-
-  - Display as a table of observed vs predicted
-
-  - Calculates the misclassification rate and check that missclass and correct class values combine to equal 1
-
+  
 - Makes a second decision tree following the steps noted by downsampling the Queen’s University (Q) samples in the common_garden vector to account for fewer Vancouver samples. 
 
   - Set seed (100) for reproducibility
@@ -154,13 +146,11 @@ Run the DecisionTree.R file:
 
 For all trees, this code will create a confusion matrix: 
 
-- Set up confusion matrix type=class
+  - Sets up confusion matrix type=class
 
-- Display as a table of obs vs pred
+  - Display as a table of observed vs predicted
 
-- Calculate misclassification rate
-
-- Check that missclass and correct class combine to equal 1
+  - Calculates the misclassification rate and checks that missclass and correct class values combine to equal 1
 
 **Distance Matrix and Cluster Trees**
 
