@@ -8,7 +8,7 @@ Data Source: Honor, R.D., M. Marcellus, and R.I. Colautti. 2022. Data for the ar
 
 **Data file list:**
 
-Cluster_tree.R
+*Cluster_tree.R
 
 CorrelationMatrix.R
 
@@ -30,7 +30,7 @@ normalized_data.csv
 
 raw_bolt_data.csv
 
-raw_data.csv
+raw_data.csv*
 
 **Variables**
 
