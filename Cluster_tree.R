@@ -26,7 +26,7 @@ p<-data%>%
   group_by(population)%>%
   summarize(z_RGR1=mean(z_RGR1),z_RGR2=mean(z_RGR2), z_RGR3=mean(z_RGR3), z_RGR4=mean(z_RGR4),
             z_ChlorA=mean(z_ChlorA), z_ChlorB=mean(z_ChlorB),z_gluc_Conc=mean(z_gluc_Conc),
-            z_flav_Conc=mean(z_flav_Conc), Z_Leaf_Len=mean( Z_Leaf_Len),z_Leaf_Wid=mean(z_Leaf_Wid),
+            z_flav_Conc=mean(z_flav_Conc), z_Leaf_Len=mean(z_Leaf_Len),z_Leaf_Wid=mean(z_Leaf_Wid),
             z_TotalLeaf_Area=mean(z_TotalLeaf_Area),z_NumberOfLeaves=mean(z_NumberOfLeaves))
 
 p2<-p %>%
@@ -105,7 +105,8 @@ garden<-garden[-c(812,813,960)]
 gardenGroups<-split(tree1$tip.label, garden)
 gardenCol<-groupOTU(tree1,gardenGroups)
 
-d<-ggtree(gardenCol,layout="rectangular",aes(colour=group))
+d<-ggtree(gardenCol,layout="circular",aes(colour=as.factor(group)),branch.length = "none") +guides(color = guide_legend(title = "Common Garden")) + 
+  scale_color_manual(values=c("blue", "red2", "green"))
 
 #pdf(file = "./d.pdf",  
     #width = 6, 
