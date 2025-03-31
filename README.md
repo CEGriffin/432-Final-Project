@@ -6,7 +6,7 @@ Creators: Kaye, A., McLeod, A., Griffin, C., Gillette, E., Kales M., Sandhu H.
 
 Date of Issue: 2025-03-31
 
-Data Source: Honor, R.D., M. Marcellus, and R.I. Colautti. 2022. Data for the article "Direct and indirect fitness effects of competition limit evolution of allelopathy in an invading plant", Dryad, Dataset
+Data Source: Honor, R.D., M. Marcellus, and R.I. Colautti. 2023. Data for the article "Direct and indirect fitness effects of competition limit evolution of allelopathy in an invading plant", Dryad, Dataset
 
 **Data file list:**
 
