@@ -22,25 +22,45 @@ raw_data.csv
 
 Variables 
 Tag: Unique barcode for each individual plant. The section before the "|" indicates the petri dish the plant germinated on, after the "|" indicates the genetic family of the plant, after the second "|", reflects whether the parent family was grown in a common garden in Vancouver (V), at Queen's University (Q), or came from a seed from the original population (N).After the last "|" is a unique identifier for the plant.
+
 The following variables are just the different components of “Tag” expanded into their own columns: 
+
 petri_dish: The petri dish on which the plant seed germinated
+
 population: Genetic population of the plant
+
 family: Genetic family of the plant
+
 common_garden: where the parent plant was grown (V=Vancouver, Q= Queen’s, N=natural population)
+
 ID: Unique identifier for the plant
+
 ChlorA: Chlorophyll A concentration (micrograms/ml)
+
 ChlorB: Chlorophyll B concentration (micrograms/ml)
+
 gluc_Conc: Glucosinolate concentration (mg/ml)
+
 flav_Conc: Flavonoid concentration (mg/ml)
+
 GM_Leaf_Len: leaf length (mm)
+
 GM_Leaf_Wid: leaf width (mm)
+
 GM_TotalLeaf_Area: summation of leaf area (mm^2)
+
 GM_NumberOfLeaves: Number of true leaves on the plant at a specific time
+
 Larg_Leaf_Len_Bolt: length of the largest leaf (cm) at “bolt” growth stage. A "d" indicates that the plant has died.
+
 Larg_Leaf_Wid_Bolt: width of the largest leaf (cm) at “bolt” growth stage
+
 GM_StemHeight_Bolt: stem height of the bolt (cm) at “bolt” growth stage
+
 GM_Leaf_Number_Bolt: number of leaves on the plant at “bolt” growth stage
+
 RGR1 - RGR4: Calculated by comparing the log rosette size from two different time periods. Rosette size was measured every two weeks over a two-day g period. The first census was on May 27-28, and the fourth was six weeks after. Relative growth rate 1 was calculated by comparing census 1 (May 27-28) and census 2 (June 11-12). 
+
 Data Manipulation
 Run DataSynthesis.r as provided by Colautti et al. (2023), which produces DataSynthesis.csv
 Use Regex to separate out the Tag column into its various components (petri dish, population, family, common garden, and ID)
