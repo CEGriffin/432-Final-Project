@@ -32,6 +32,7 @@ raw_bolt_data.csv
 raw_data.csv
 
 **Variables**
+
 Tag: Unique barcode for each individual plant. The section before the "|" indicates the petri dish the plant germinated on, after the "|" indicates the genetic family of the plant, after the second "|", reflects whether the parent family was grown in a common garden in Vancouver (V), at Queen's University (Q), or came from a seed from the original population (N).After the last "|" is a unique identifier for the plant.
 
 The following variables are just the different components of “Tag” expanded into their own columns: 
