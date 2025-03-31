@@ -63,60 +63,104 @@ RGR1 - RGR4: Calculated by comparing the log rosette size from two different tim
 
 Data Manipulation
 Run DataSynthesis.r as provided by Colautti et al. (2023), which produces DataSynthesis.csv
+
 Use Regex to separate out the Tag column into its various components (petri dish, population, family, common garden, and ID)
+
 Filter out maple observation, observations for which the Tag data is incomplete, and unneeded columns (keep the ones listed above)
+
 Create a column called “mortality”, and assign a 1 or 0 based on the data from one of the “bolt” columns
+
 Subset a dataframe called bolt data, for which there are numerical observations in the “bolt” columns
+
 Impute the missing data in the numerical columns by replacing NA with the mean of the column
+
 Write two csv files called raw_data.csv and raw_bolt_data.csv
+
 Check both datasets for normality in numeric variables via histogram and qq plots with ggplot
+
 Log transform when applicable, and convert to z-scores
+
 Write two csv files called normalized_data.csv and normalized_bolt_data.csv
 
 Correlation Matrix
 Run CorrelationMatrix.R 
+
 Selects only numeric variable columns (greenhouse measurements) to create a correlation matrix.
 
 Principal Component Analysis PCA
 Run the PCA.R file
+
 Pulls the .csv files created in the Data Manipulation step from GitHub 
+
 Removes columns not relevant for a PCA (e.g. categorical variables, unique identifiers, etc.) 
+
 Creates a scree plot to evaluate the components. 
+
 Combines the PCA scores with the original data frame to create a new dataframe for plotting in ggplot. 
+
 Creates bi-variate plots comparing the PC components; the data points are colour-coded by genetic population and have different shapes corresponding to their respective “common_garden” categories. 
+
 Two PCAs are run, once on the normalized_data.csv and another on the normalized_bolt_data.csv. 
 
 Decision Trees
 Run the DecisionTree.R file: 
+
 Removes unneeded columns, use only columns with numerical data
+
 Keeps only rows where common garden is Q, N, or V
+
 Sets up a data frame to remove bolt data
+
 Creates a matrix to check covariance
+
 Separate into testing and training datasets (50:50 split)
+
 Makes a tree using the tree() function from the tree library; prune the nodes for 8 tips using the “best=” parameter
+
 Confusion matrix: 
 Set up confusion matrix type=class
+
 Display as a table of observed vs predicted
+
 Calculates the misclassification rate and check that missclass and correct class values combine to equal 1
+
 Makes a second decision tree following the steps noted by downsampling the Queen’s University (Q) samples in the common_garden vector to account for fewer Vancouver samples. 
+
 Set seed (100) for reproducibility
+
 Makes a third  decision tree with only plants that survive (mortality column == 1), with no downsampling
+
 Makes a final decision tree with only plants that survive (mortality column == 1) with downsampling of the Queen’s University (Q) samples in the  common_garden vector:
+
 Set set (100) for reproducibility
+
 For all trees, this code will create a confusion matrix: 
+
 Set up confusion matrix type=class
+
 Display as a table of obs vs pred
+
 Calculate misclassification rate
+
 Check that missclass and correct class combine to equal 1
 
 Distance Matrix and Cluster trees
 Run the Cluster_tree.R file:
+
 Loads the normalized_data.csv from GitHub 
+
 Creates a new list object with unique names using the Tag column 
+
 Assigns new row names using the new unique names list object 
+
 Creates a distance matrix using euclidean distance using all the samples 
+
 Creates a cluster tree using ggplot and colours each branch by its genetic population (there are lines of regex to turn the unique identifier row name into just the population) 
+
 Regex is also used to extract just the common garden from the unique row names to colour-code the branches in a second cluster tree
+
 Lastly, the data is subsetted into population-level data (summarizes the mean values for all the parameters for each genetic population) 
+
 Melts the second distance (euclidean) matrix into a molten data frame and visualizes the matrix using geom_tile() in ggplot
+
 Creates a cluster tree at the population-level to show if the distinct genetic populations show clustering based on plant growth/success traits. 
