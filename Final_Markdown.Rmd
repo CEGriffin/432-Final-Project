@@ -231,7 +231,7 @@ print(CorTable)
 
 
 __PCA__
-```{r, warning=F, message=F}
+```{r, warning=F, message=F, fig.height=5, fig.width=7}
 #Load Libraries
 library(dplyr)
 library(ggplot2)
@@ -385,8 +385,8 @@ plantTest<-plantDecide[test == 1,]
 plantTree<- tree(common_garden ~ ., data=plantTrain)
 
 #plot the tree with text - these 2 following lines need to be run together
-plot(plantTree) 
-text(plantTree, cex =0.8)
+#plot(plantTree) 
+#text(plantTree, cex =0.8)
 
 #prune nodes
 pruneTree<-cv.tree(plantTree, best=8, FUN=prune.tree)
@@ -429,8 +429,8 @@ plantTest2<-plantDecide2[test2 == 1,]
 plantTree2<-tree(common_garden ~ ., data=plantTrain2)
 
 #plot the tree with text - run these 2 lines of code together
-plot(plantTree2) 
-text(plantTree2, cex =0.8)
+#plot(plantTree2) 
+#text(plantTree2, cex =0.8)
 
 #prune nodes
 pruneTree2<-cv.tree(plantTree2, best=8, FUN=prune.tree)
@@ -494,8 +494,8 @@ plantTest3<-plantDecide3[test3 == 1,]
 plantTree3<- tree(common_garden ~ ., data=plantTrain3)
 
 #plot the tree with text
-plot(plantTree3) 
-text(plantTree3, cex =0.8)
+#plot(plantTree3) 
+#text(plantTree3, cex =0.8)
 
 #prune nodes
 pruneTree3<-cv.tree(plantTree3, best=8, FUN=prune.tree)
@@ -536,8 +536,8 @@ plantTest4<-plantDecide4[test4 == 1,]
 plantTree4<- tree(common_garden ~ ., data=plantTrain4)
 
 #plot the tree with text
-plot(plantTree4) 
-text(plantTree4, cex =0.8)
+#plot(plantTree4) 
+#text(plantTree4, cex =0.8)
 
 #setting up confusion matrix
 plantConfuse4<-data.frame(Obs=plantTest4$common_garden,Pred=predict(plantTree4, plantTest4, type="class"))
@@ -630,7 +630,7 @@ ggplot(data = distMrx2, aes(x=Query, y=Subject, fill=Distance)) +
 #tree building for sample-level, colour by population
 tree1<-nj(distance)
 #str(tree1)
-ggtree(tree1, layout="circular")
+#ggtree(tree1, layout="circular")
 
 #extract population and common garden from the tags
 pop<-gsub("^[a-z]\\.","",tree1$tip.label)
@@ -638,8 +638,8 @@ pop2<-sub("\\..*","",pop)
 popGroups<-split(tree1$tip.label, pop2)
 popCol<-groupOTU(tree1,popGroups)
 
-ggtree(popCol,layout="circular",aes(colour=group))
-ggtree(popCol,layout="rectangular",aes(colour=group))
+ggtree(popCol,layout="circular",aes(colour=group), branch.length="none")
+#ggtree(popCol,layout="rectangular",aes(colour=group))
 
 #tree building for sample-level, colour by common garden
 garden<-gsub(".*([QNV]).*","\\1",tree1$tip.label)
