@@ -37,15 +37,11 @@ Data Source: Honor, R.D., M. Marcellus, and R.I. Colautti. 2022. Data for the ar
 - Tag: Unique barcode for each individual plant. The section before the "|" indicates the petri dish the plant germinated on, after the "|" indicates the genetic family of the plant, after the second "|", reflects whether the parent family was grown in a common garden in Vancouver (V), at Queen's University (Q), or came from a seed from the original population (N). After the last "|" is a unique identifier for the plant.
 
 The following five variables are just the different components of “Tag” expanded into their own columns: 
-
+  
   - petri_dish: The petri dish on which the plant seed germinated
-
   - population: Genetic population of the plant
-
   - family: Genetic family of the plant
-
   - common_garden: where the parent plant was grown (V = Vancouver, Q = Queen’s, N = natural population)
-
   - ID: Unique identifier for the plant
 
 - ChlorA: Chlorophyll A concentration (micrograms/ml)
