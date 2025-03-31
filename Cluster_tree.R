@@ -80,8 +80,9 @@ pop2<-sub("\\..*","",pop)
 popGroups<-split(tree1$tip.label, pop2)
 popCol<-groupOTU(tree1,popGroups)
 
-c<-ggtree(popCol,layout="circular",aes(colour=group))
-c2<-ggtree(popCol,layout="rectangular",aes(colour=group))
+c<-ggtree(popCol,layout="circular",aes(colour=group), branch.length = "none") + 
+  guides(color = guide_legend(title = "Genetic Population"))
+#c2<-ggtree(popCol,layout="rectangular",aes(colour=group))
 
 #pdf(file = "./c.pdf",  
     #width = 6, 
@@ -105,8 +106,8 @@ garden<-garden[-c(812,813,960)]
 gardenGroups<-split(tree1$tip.label, garden)
 gardenCol<-groupOTU(tree1,gardenGroups)
 
-d<-ggtree(gardenCol,layout="circular",aes(colour=as.factor(group)),branch.length = "none") +guides(color = guide_legend(title = "Common Garden")) + 
-  scale_color_manual(values=c("blue", "red2", "green"))
+d<-ggtree(gardenCol,layout="circular",aes(colour=as.factor(group)),branch.length = "none") +
+  guides(color = guide_legend(title = "Common Garden")) + scale_color_manual(values=c("blue", "red2", "green"))
 
 #pdf(file = "./d.pdf",  
     #width = 6, 
