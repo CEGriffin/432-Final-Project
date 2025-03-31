@@ -71,7 +71,8 @@ Data Source: Honor, R.D., M. Marcellus, and R.I. Colautti. 2023. Data for the ar
 
 - RGR1 - RGR4: Calculated by comparing the log rosette size from two different time periods. Rosette size was measured every two weeks over a two-day period. The first census was on May 27-28, and the fourth was six weeks after. Relative growth rate 1 was calculated by comparing census 1 (May 27-28) and census 2 (June 11-12). 
 
-**Libraries** 
+**Packages** 
+
 Ensure the following packages are installed prior to running any of the files: 
 
 - dplyr
