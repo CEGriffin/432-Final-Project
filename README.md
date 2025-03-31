@@ -8,16 +8,27 @@ Data Source: Honor, R.D., M. Marcellus, and R.I. Colautti. 2022. Data for the ar
 
 Data file list:
 Cluster_tree.R
+
 CorrelationMatrix.R
+
 DataSynthesis.csv
+
 Data_manipulation.R
+
 DecisionTree.R
+
 Final_Markdown.Rmd
+
 PCA.R
+
 SuccessfulTree.Rmd
+
 normalized_bolt_data.csv
+
 normalized_data.csv
+
 raw_bolt_data.csv
+
 raw_data.csv
 
 Variables 
