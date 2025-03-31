@@ -7,7 +7,7 @@ output: html_document
 
 Github Link: https://github.com/CEGriffin/432-Final-Project
 
-Group members: Clarisa Griffin (20270784), 
+Group members: Clarisa Griffin (20270784), Emilia Gillette (20204160)
 
 __Data Manipulation__
 
@@ -657,4 +657,5 @@ tree2<-nj(distp)
 #str(tree2)
 ggtree(tree2, layout="circular") + geom_tiplab(size=2,aes(angle=angle))
 ```
+
 
