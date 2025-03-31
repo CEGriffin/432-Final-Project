@@ -49,7 +49,7 @@ data<-subset(data, common_garden!="b|WSSWM3-1-0|?|?")
 data<-subset(data, common_garden!="i163_2")
 
 #Ensure columns are the right data class
-str(data)
+#str(data)
 data$Tag<-as.factor(data$Tag)
 data$petri_dish<-as.factor(data$petri_dish)
 data$population<-as.factor(data$population)
@@ -223,9 +223,9 @@ pcaData_2<-pcaData %>%
 plantPCA<-princomp(na.omit(pcaData_2),cor=F)
 
 #checking the PCA output and its structure
-str(plantPCA)
-head(plantPCA)
-names(plantPCA)
+#str(plantPCA)
+#head(plantPCA)
+#names(plantPCA)
 
 #put PCA loadings into a data frame
 PCloadings<-data.frame(Component=c(1:13),Eigenvalue=plantPCA$sdev^2)
@@ -234,7 +234,7 @@ PCloadings<-data.frame(Component=c(1:13),Eigenvalue=plantPCA$sdev^2)
 ggplot(aes(x=Component,y=Eigenvalue),data=PCloadings) +geom_point() + geom_line()
 
 #what are the loadings of each variable on the components 
-plantPCA$loadings
+#plantPCA$loadings
 
 #combining the PCA with the original plant data for graphing 
 plantCombined<-cbind(na.omit(pcaData), plantPCA$scores)
@@ -243,7 +243,7 @@ plantCombined<-plantCombined %>%
   rename(PC1 = Comp.1, PC2 = Comp.2, PC3 = Comp.3, PC4= Comp.4, PC5 = Comp.5)
 
 #make sure columns are the right data classes
-str(plantCombined)
+#str(plantCombined)
 
 plantCombined$population<-as.factor(plantCombined$population)
 
@@ -274,9 +274,9 @@ pcaData2<-boltData %>%
 boltPCA<-princomp(pcaData2,cor=F)
 
 #checking the PCA output and its structure
-str(boltPCA)
-head(boltPCA)
-names(boltPCA)
+#str(boltPCA)
+#head(boltPCA)
+#names(boltPCA)
 
 #put PCA loadings into a data frame
 PCloadings2<-data.frame(Component=c(1:17),Eigenvalue=boltPCA$sdev^2)
@@ -285,7 +285,7 @@ PCloadings2<-data.frame(Component=c(1:17),Eigenvalue=boltPCA$sdev^2)
 ggplot(aes(x=Component,y=Eigenvalue),data=PCloadings2) +geom_point() + geom_line()
 
 #what are the loadings of each variable on the components 
-boltPCA$loadings
+#boltPCA$loadings
 
 #combining the PCA with the original plant data for graphing 
 boltCombined<-cbind(boltData, boltPCA$scores)
@@ -294,7 +294,7 @@ boltCombined<-boltCombined %>%
   rename(PC1 = Comp.1, PC2 = Comp.2, PC3 = Comp.3, PC4= Comp.4, PC5 = Comp.5, 
          PC6=Comp.6)
 
-str(boltCombined)
+#str(boltCombined)
 
 boltCombined$population<-as.factor(boltCombined$population)
 
@@ -451,7 +451,7 @@ plantTemp2$Larg_Leaf_Wid_Bolt <- as.numeric(plantTemp2$Larg_Leaf_Wid_Bolt)
 plantTemp2$GM_StemHeight_Bolt <- as.numeric(plantTemp2$GM_StemHeight_Bolt)
 plantTemp2$GM_Leaf_Number_Bolt <- as.numeric(plantTemp2$GM_Leaf_Number_Bolt)
 
-str(plantTemp2)
+#str(plantTemp2)
 
 #make a matrix
 plant_matrix2<-as.matrix(plantTemp2)
