@@ -18,20 +18,6 @@ head(data)
 uniq_name<-make.names(data$Tag, unique=T)
 row.names(data)<-uniq_name
 
-p<-data%>%
-  group_by(population)%>%
-  summarize(z_RGR1=mean(z_RGR1),z_RGR2=mean(z_RGR2), z_RGR3=mean(z_RGR3), z_RGR4=mean(z_RGR4),
-            z_ChlorA=mean(z_ChlorA), z_ChlorB=mean(z_ChlorB),z_gluc_Conc=mean(z_gluc_Conc),
-            z_flav_Conc=mean(z_flav_Conc), z_Leaf_Len=mean(z_Leaf_Len),z_Leaf_Wid=mean(z_Leaf_Wid),
-            z_TotalLeaf_Area=mean(z_TotalLeaf_Area),z_NumberOfLeaves=mean(z_NumberOfLeaves))
-
-p2<-p %>%
-  select(-c("population"))
-
-p2<-data.frame(p2)
-
-row.names(p2)<-p$population
-
 #make a dataframe with only the important columns
 data2<-data%>%
   select(starts_with("z_"))
@@ -45,6 +31,20 @@ distMrx<-melt(a)
 names(distMrx)<-c("Query","Subject","Distance")
 
 #distance matrix by population
+
+p<-data%>%
+  group_by(population)%>%
+  summarize(z_RGR1=mean(z_RGR1),z_RGR2=mean(z_RGR2), z_RGR3=mean(z_RGR3), z_RGR4=mean(z_RGR4),
+            z_ChlorA=mean(z_ChlorA), z_ChlorB=mean(z_ChlorB),z_gluc_Conc=mean(z_gluc_Conc),
+            z_flav_Conc=mean(z_flav_Conc), z_Leaf_Len=mean(z_Leaf_Len),z_Leaf_Wid=mean(z_Leaf_Wid),
+            z_TotalLeaf_Area=mean(z_TotalLeaf_Area),z_NumberOfLeaves=mean(z_NumberOfLeaves))
+
+p2<-p %>%
+  select(-c("population"))
+
+p2<-data.frame(p2)
+
+row.names(p2)<-p$population
 
 distp<-dist(p2, method = "euclidean")
 a2<-as.matrix(distp)
@@ -115,46 +115,3 @@ d<-ggtree(gardenCol,layout="circular",aes(colour=as.factor(group)),branch.length
 tree2<-nj(distp)
 str(tree2)
 ggtree(tree2, layout="circular") + geom_tiplab(size=2,aes(angle=angle))
-
-#colour by common garden or population
-#ggtree(tree1, layout="rectangular") %<+% data +
-  #geom_tiplab(aes(colour=population)) +
-  #theme(legend.position="right")
-
-#View(data)
-
-
-
-#normalixze all the data
-#regression trees- you can combo diff kinds of data
-#for clustering use only the the same type of data
-#check normality
-#correlation structure- eg chlor a and b
-#do a pca - take only pci, which represents chemistry , relative growth rates
-#log transform counts- will approx normalize it
-
-
-#try to colour by population or common garden
-#will ask colautti abou tthis
-
-
-#use a diff object for labelling, wird pipe %>+%
-
-#pca normalzed, 
-#not decision tree, can use raw data on that
-
-
-#YOU CAN PROBABLY IGNORE THIS
-#turn into a matrix
-dist_matr<-as.matrix(distance)
-pdat<-melt(dist_matr)
-head(pdat)
-names(pdat)<-c("query", "subject", "distance")
-dim(dist_matr)
-dim(pdat)
-str(pdat)
-
-#visualize distance matrix
-ggplot(data=pdat, aes(x=query, y=subject, fill=distance)) +
-  geom_tile()
-#i think this is too big to visualize
