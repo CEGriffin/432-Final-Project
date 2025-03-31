@@ -7,7 +7,7 @@ output: html_document
 
 Github Link: https://github.com/CEGriffin/432-Final-Project
 
-Group members: Clarisa Griffin (20270784), Emilia Gillette (20204160)
+Group members: Clarisa Griffin (20270784), Emilia Gillette (20204160), Harnaaz Sandhu (20258736), Aidan McLeod (20294254), Maddigan Kales (20259834), and Abigail Kaye (20271241)
 
 __Data Manipulation__
 
