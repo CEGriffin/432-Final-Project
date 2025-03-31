@@ -1,10 +1,6 @@
 #Create cluster tree to asses whether plants
 #group by common garden or population
 
-#set working directory
-getwd()
-setwd("C:/Users/clari/Desktop/BIOL 432/Week10/432-Final-Project")
-
 #load libraries
 library(ggplot2)
 library(ape)
@@ -15,7 +11,7 @@ library(ggtree)
 library(vegan)
 
 #load data
-data<-read.csv("./normalized_data.csv", row.names=NULL)
+data<-read.csv("https://raw.githubusercontent.com/CEGriffin/432-Final-Project/main/normalized_data.csv", row.names=NULL)
 head(data)
 
 #give data row names
