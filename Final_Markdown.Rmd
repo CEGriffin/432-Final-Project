@@ -108,7 +108,7 @@ write.csv(bolt_data, file="./raw_bolt_data.csv", row.names=F)
 __Normalized Data__
 ```{r, warning=F, message=F}
 #Check normality of numerical variables with histogram
-long_data<-pivot_longer(data, c(12:23), names_to="metric", values_to="values")
+long_data<-pivot_longer(data, c(12:15, 20:27), names_to="metric", values_to="values")
 
 ggplot(long_data, aes(x=values)) +
   geom_histogram() +
@@ -203,16 +203,16 @@ write.csv(data, file="./normalized_data.csv", row.names=F)
 write.csv(bolt_data, file="./normalized_bolt_data.csv", row.names=F)
 ```
 
+PUT IN CORRELATION MATRIX
 
 ##PCA##
-```{r}
-
+```{r, warning=F, message=F}
 #Load Libraries
 library(dplyr)
 library(ggplot2)
 
 #Load data
-pcaData<-read.csv("normalized_data.csv")
+pcaData<-read.csv("normalized_data.csv", header=T)
 
 #select out the un-needed columns, leave columns with only data
 pcaData_2<-pcaData %>%
@@ -307,5 +307,226 @@ ggplot(aes(x=PC2,y=PC3,colour=population, shape=common_garden),data=boltCombined
 
 ggplot(aes(x=PC1,y=PC3,colour=population, shape=common_garden),data=boltCombined)+
   geom_point()+ theme_bw()
+```
+
+
+##Decision tree##
+```{r, warning=F, message=F}
+#Load libraries
+library(dplyr)
+library(tree)
+
+plantData<-read.csv("raw_data.csv", header=T)
+
+## Not Down Sampled Decision Tree without Bolt Data
+
+#Select out un-needed columns, use only columns with numerical data
+plantDecide_raw<-plantData %>%
+  select(-c("population", "ID", "gh_bench", "gh_col", "gh_row", 
+            "Row_Field", "Col_Field", "petri_dish", "family", "Tag"))
+
+#keeps only rows where common_garden is Q, N, or V
+plantDecideQ<-subset(plantDecide_raw, common_garden == "Q")
+plantDecideN<-subset(plantDecide_raw, common_garden == "N")
+plantDecideV<-subset(plantDecide_raw, common_garden == "V")
+
+plantDecide_raw<- rbind(plantDecideQ, plantDecideN, plantDecideV)
+
+#select out bolt data
+plantDecide<-plantDecide_raw %>%
+  select(-c("Larg_Leaf_Len_Bolt", "Larg_Leaf_Wid_Bolt", "GM_StemHeight_Bolt", "GM_Leaf_Number_Bolt"))
+
+#make sure columns ARE THE RIGHT DATA CLASSES
+plantDecide$common_garden<-as.factor(plantDecide$common_garden)
+
+#select out unneeded columns
+plantTemp<- plantDecide %>%
+  select(-c("common_garden"))
+
+#create a matrix
+plant_matrix<-as.matrix(plantTemp)
+
+#checking covariance
+cov(plantTemp)
+
+#separating into testing and training datasets
+train<-c(1:nrow(plantDecide)) %% 2
+plantTrain<-plantDecide[train == 1,]
+
+test<-1-train
+plantTest<-plantDecide[test == 1,]
+
+#make a tree
+plantTree<- tree(common_garden ~ ., data=plantTrain)
+
+#plot the tree with text - these 2 following lines need to be run together
+plot(plantTree) 
+text(plantTree, cex =0.8)
+
+#prune nodes
+pruneTree<-cv.tree(plantTree, best=8, FUN=prune.tree)
+plot(pruneTree) #run this and the next line together
+text(pruneTree, cex=0.8)
+
+#setting up confusion matrix
+plantConfuse<-data.frame(Obs=plantTest$common_garden,Pred=predict(pruneTree, plantTest, type="class"))
+table(plantConfuse)
+
+#calculating the misclassification rate 
+MisClass<-plantConfuse %>%
+  filter(Obs!=Pred)
+nrow(MisClass)/nrow(plantConfuse)
+
+#checking that misclass and correct class = 1
+correct<-plantConfuse %>%
+  filter(Obs==Pred)
+nrow(correct)/nrow(plantConfuse)
+
+#sum does in fact equal 1
+
+## Making a Decision tree with down sampling to account for fewer Vancouver samples
+set.seed(100)
+plantDecideQ2<-plantDecideQ[sample(nrow(plantDecideQ), 163),]
+
+plantDecide2<-rbind(plantDecideQ2, plantDecideN, plantDecideV)
+
+plantDecide2<-plantDecide2 %>%
+  select(-c("Larg_Leaf_Len_Bolt", "Larg_Leaf_Wid_Bolt", "GM_StemHeight_Bolt", "GM_Leaf_Number_Bolt"))
+
+plantDecide2$common_garden<-as.factor(plantDecide2$common_garden)
+
+train2<-c(1:nrow(plantDecide2)) %% 2
+plantTrain2<-plantDecide2[train2 == 1,]
+
+test2<-1-train2
+plantTest2<-plantDecide2[test2 == 1,]
+
+plantTree2<-tree(common_garden ~ ., data=plantTrain2)
+
+#plot the tree with text - run these 2 lines of code together
+plot(plantTree2) 
+text(plantTree2, cex =0.8)
+
+#prune nodes
+pruneTree2<-cv.tree(plantTree2, best=8, FUN=prune.tree)
+plot(pruneTree2) #run this and the next line of code together
+text(pruneTree2, cex=0.8)
+
+#setting up confusion matrix
+plantConfuse2<-data.frame(Obs=plantTest2$common_garden,Pred=predict(pruneTree2, plantTest2, type="class"))
+table(plantConfuse2)
+
+#calculating the misclassification rate 
+MisClass2<-plantConfuse2 %>%
+  filter(Obs!=Pred)
+nrow(MisClass2)/nrow(plantConfuse2)
+
+#checking that misclass and correct class = 1
+correct2<-plantConfuse2 %>%
+  filter(Obs==Pred)
+nrow(correct2)/nrow(plantConfuse2)
+
+
+
+## Making a Decision Tree with only plants that survived (mortality = 1) without down sampling
+plantDecide3<-subset(plantDecide_raw, mortality == 1)
+
+#ensures common garden is only Q, N or V
+plantDecideQ_3<-subset(plantDecide3, common_garden == "Q")
+plantDecideN_3<-subset(plantDecide3, common_garden == "N")
+plantDecideV_3<-subset(plantDecide3, common_garden == "V")
+
+plantDecide3<-rbind(plantDecideQ_3, plantDecideN_3, plantDecideV_3)
+
+#make sure columns are the right characters classes
+plantDecide3$common_garden<-as.factor(plantDecide3$common_garden)
+
+#select out un needed columns
+plantTemp2<- plantDecide3 %>%
+  select(-c("common_garden", "mortality"))
+
+#make sure columns are the right data classes
+plantTemp2$Larg_Leaf_Len_Bolt <- as.numeric(plantTemp2$Larg_Leaf_Len_Bolt)
+plantTemp2$Larg_Leaf_Wid_Bolt <- as.numeric(plantTemp2$Larg_Leaf_Wid_Bolt)
+plantTemp2$GM_StemHeight_Bolt <- as.numeric(plantTemp2$GM_StemHeight_Bolt)
+plantTemp2$GM_Leaf_Number_Bolt <- as.numeric(plantTemp2$GM_Leaf_Number_Bolt)
+
+str(plantTemp2)
+
+#make a matrix
+plant_matrix2<-as.matrix(plantTemp2)
+
+plantDecide3<- plantDecide3 %>%
+  select(-mortality)
+
+#split training and testing data
+train3<-c(1:nrow(plantDecide3)) %% 2
+plantTrain3<-plantDecide3[train3 == 1,]
+
+test3<-1-train3
+plantTest3<-plantDecide3[test3 == 1,]
+
+plantTree3<- tree(common_garden ~ ., data=plantTrain3)
+
+#plot the tree with text
+plot(plantTree3) 
+text(plantTree3, cex =0.8)
+
+#prune nodes
+pruneTree3<-cv.tree(plantTree3, best=8, FUN=prune.tree)
+plot(pruneTree3)
+text(pruneTree3, cex=0.8)
+
+#setting up confusion matrix
+plantConfuse3<-data.frame(Obs=plantTest3$common_garden,Pred=predict(pruneTree3, plantTest3, type="class"))
+table(plantConfuse3)
+
+#calculating the misclassification rate 
+MisClass3<-plantConfuse3 %>%
+  filter(Obs!=Pred)
+nrow(MisClass3)/nrow(plantConfuse3)
+
+#checking that misclass and correct class = 1
+correct3<-plantConfuse3 %>%
+  filter(Obs==Pred)
+nrow(correct3)/nrow(plantConfuse3)
+
+## Making a Decision tree with down sampling to account for mortality == 1
+set.seed(100)
+plantDecideQ_4<-plantDecideQ_3[sample(nrow(plantDecideQ_3), 38),]
+
+plantDecide4<-rbind(plantDecideQ_4, plantDecideN_3, plantDecideV_3)
+
+plantDecide4$common_garden<-as.factor(plantDecide4$common_garden)
+
+plantDecide4<- plantDecide4 %>%
+  select(-mortality)
+
+train4<-c(1:nrow(plantDecide4)) %% 2
+plantTrain4<-plantDecide4[train4 == 1,]
+
+test4<-1-train4
+plantTest4<-plantDecide4[test4 == 1,]
+
+plantTree4<- tree(common_garden ~ ., data=plantTrain4)
+
+#plot the tree with text
+plot(plantTree4) 
+text(plantTree4, cex =0.8)
+
+#setting up confusion matrix
+plantConfuse4<-data.frame(Obs=plantTest4$common_garden,Pred=predict(plantTree4, plantTest4, type="class"))
+table(plantConfuse4)
+
+#calculating the misclassification rate 
+MisClass4<-plantConfuse4 %>%
+  filter(Obs!=Pred)
+nrow(MisClass4)/nrow(plantConfuse4)
+
+#checking that misclass and correct class = 1
+correct4<-plantConfuse4 %>%
+  filter(Obs==Pred)
+nrow(correct4)/nrow(plantConfuse4)
+
 ```
 
