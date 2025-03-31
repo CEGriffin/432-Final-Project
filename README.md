@@ -8,29 +8,29 @@ Data Source: Honor, R.D., M. Marcellus, and R.I. Colautti. 2022. Data for the ar
 
 **Data file list:**
 
-*Cluster_tree.R
+*Cluster_tree.R*
 
-CorrelationMatrix.R
+*CorrelationMatrix.R*
 
-DataSynthesis.csv
+*DataSynthesis.csv*
 
-Data_manipulation.R
+*Data_manipulation.R*
 
-DecisionTree.R
+*DecisionTree.R*
 
-Final_Markdown.Rmd
+*Final_Markdown.Rmd*
 
-PCA.R
+*PCA.R*
 
-SuccessfulTree.Rmd
+*SuccessfulTree.Rmd*
 
-normalized_bolt_data.csv
+*normalized_bolt_data.csv*
 
-normalized_data.csv
+*normalized_data.csv*
 
-raw_bolt_data.csv
+*raw_bolt_data.csv*
 
-raw_data.csv*
+*raw_data.csv*
 
 **Variables**
 
@@ -44,7 +44,7 @@ The following five variables are just the different components of “Tag” expa
 
   - family: Genetic family of the plant
 
-  - common_garden: where the parent plant was grown (V=Vancouver, Q= Queen’s, N=natural population)
+  - common_garden: where the parent plant was grown (V = Vancouver, Q = Queen’s, N = natural population)
 
   - ID: Unique identifier for the plant
 
@@ -72,7 +72,7 @@ The following five variables are just the different components of “Tag” expa
 
 - GM_Leaf_Number_Bolt: number of leaves on the plant at “bolt” growth stage
 
-- RGR1 - RGR4: Calculated by comparing the log rosette size from two different time periods. Rosette size was measured every two weeks over a two-day g period. The first census was on May 27-28, and the fourth was six weeks after. Relative growth rate 1 was calculated by comparing census 1 (May 27-28) and census 2 (June 11-12). 
+- RGR1 - RGR4: Calculated by comparing the log rosette size from two different time periods. Rosette size was measured every two weeks over a two-day period. The first census was on May 27-28, and the fourth was six weeks after. Relative growth rate 1 was calculated by comparing census 1 (May 27-28) and census 2 (June 11-12). 
 
 **Data Manipulation**
 
